@@ -1,7 +1,7 @@
 (function(v, runtime) {
 
   // mix your pages into "v", here's some samples:
-  
+
   // A very simple "Page" abstraction for our single page app
   v.Page = Backbone.View.extend({
     initialize: function() {
@@ -15,7 +15,7 @@
       return this;
     }
   });
-  
+
   // Some pages
   v.Home = v.Page.extend({
     template: JST["app/templates/pages/home.hb"]
@@ -24,15 +24,20 @@
   v.About = v.Page.extend({
     template: JST["app/templates/pages/about.hb"]
   });
-  
+
   v.Animals = v.Page.extend({
     template: JST["app/templates/pages/animals.hb"],
     // components are rendered _after_ the page template has finished rendering
+    events: {
+      'click .animals' : 'selectAnimal'
+    },
+
     components: function() {
       new v.AnimalList({ collection: runtime.Animals });
-    }
+    },
+    selectAnimal: function(e){ console.log(e);}
   });
-  
+
   v.AnimalList = Backbone.View.extend({
     el: ".animals",
     template: JST["app/templates/components/animal.list.hb"],
@@ -42,9 +47,14 @@
       this.collection.fetch();
     },
     render: function() {
+      console.log(this.collection);
       this.$el.empty();
       this.$el.html(this.template({ animals: this.collection.toJSON() }));
     }
   });
+
+
+
+
 
 })(APP.Views, APP.Runtime);

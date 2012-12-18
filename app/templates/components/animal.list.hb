@@ -1,3 +1,3 @@
 {{#each animals}}
-  <li>{{ name }}</li>
+  <li><input type='checkbox' class="animal" data-id="{{ name }}">{{ name }}</li>
 {{/each}}
